@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soybean Innovation Platform | Plateforme d'Innovation sur le Soja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Header -->
+    <header class="bg-emerald-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-seedling text-emerald-400 text-2xl"></i>
+                <span class="text-base sm:text-lg font-bold tracking-tight" data-translate="header-title">Soybean Innovation Platform</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="switchRole('farmer')" id="farmer-tab" class="bg-orange-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition" data-translate="farmer-btn">Farmer View</button>
+                <button onclick="switchRole('buyer')" id="buyer-tab" class="bg-emerald-800 text-emerald-200 px-3 py-1.5 rounded-lg text-xs font-bold transition" data-translate="buyer-btn">Buyer View</button>
+                <button onclick="toggleLanguage()" id="lang-btn" class="bg-emerald-800 border border-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-emerald-700 transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-globe text-emerald-400"></i>
+                    <span id="lang-text">FR</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+
+        <!-- Real-Time Metrics Overview -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1" data-translate="metric-1-title">Total Tonnage Listed</span>
+                <span class="text-3xl font-extrabold text-slate-900">124.5 <span data-translate="tons-label">Tons</span></span>
+                <span class="text-xs text-emerald-600 font-semibold block mt-1"><i class="fa-solid fa-arrow-up mr-1"></i> <span data-translate="metric-1-sub">Includes Ndi Paul's 5ha Ntaba Pilot</span></span>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1" data-translate="metric-2-title">Active Buyers & Processors</span>
+                <span class="text-3xl font-extrabold text-slate-900">18 <span data-translate="verified-label">Verified</span></span>
+                <span class="text-xs text-orange-600 font-semibold block mt-1" data-translate="metric-2-sub">Ready for contract matching</span>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1" data-translate="metric-3-title">Regional Coverage</span>
+                <span class="text-3xl font-extrabold text-slate-900">4 <span data-translate="regions-label">Regions</span></span>
+                <span class="text-xs text-blue-600 font-semibold block mt-1" data-translate="metric-3-sub">Southwest, Centre, West, Littoral</span>
+            </div>
+        </div>
+
+        <!-- Role View 1: Farmer / Producer Panel -->
+        <div id="farmer-panel" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 mb-10">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <span class="bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider py-1 px-3 rounded-full inline-block mb-2" data-translate="producer-badge">Producer Portal</span>
+                    <h2 class="text-2xl font-bold text-slate-900" data-translate="producer-heading">List Your Soybean Harvest</h2>
+                </div>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('Harvest listing successfully submitted to database!');" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1" data-translate="form-label-1">Producer / Farm Name</label>
+                    <input type="text" value="Ntaba Farm (Ndi Paul)" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1" data-translate="form-label-2">Region / Location</label>
+                    <input type="text" value="Ntaba, Southwest" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1" data-translate="form-label-3">Available Tonnage (Tons)</label>
+                    <input type="number" value="15" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm font-medium">
+                </div>
+                <div class="flex items-end">
+                    <button type="submit" class="w-full bg-orange-600 text-white font-bold py-2.5 rounded-lg text-sm hover:bg-orange-700 transition shadow" data-translate="form-btn">Publish Listing</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Role View 2: Buyer / Search Panel -->
+        <div id="buyer-panel" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 mb-10 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <span class="bg-orange-100 text-orange-700 text-xs font-bold uppercase tracking-wider py-1 px-3 rounded-full inline-block mb-2" data-translate="buyer-badge">Buyer Portal</span>
+                    <h2 class="text-2xl font-bold text-slate-900" data-translate="buyer-heading">Marketplace & Demand Search</h2>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search by farm, region, or variety..." data-translate-placeholder="search-placeholder" class="flex-grow bg-slate-50 border border-slate-300 rounded-lg p-3 text-sm">
+                <select id="regionFilter" onchange="filterTable()" class="bg-slate-50 border border-slate-300 rounded-lg p-3 text-sm font-medium">
+                    <option value="" data-translate="opt-all">All Regions</option>
+                    <option value="Ntaba">Ntaba</option>
+                    <option value="Centre">Centre</option>
+                    <option value="West">West</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Interactive Matching Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-6 border-b border-slate-200">
+                <h3 class="text-lg font-bold text-slate-900"><i class="fa-solid fa-table-list text-emerald-600 mr-2"></i> <span data-translate="table-heading">Live Value-Chain Directory & Matching Table</span></h3>
+                <p class="text-slate-500 text-xs mt-0.5" data-translate="table-sub">Real-time data feeds connecting verified producers to industrial processors and consumers.</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse" id="matchingTable">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-600 text-xs uppercase tracking-wider">
+                            <th class="p-4 font-bold" data-translate="th-1">Producer / Farm</th>
+                            <th class="p-4 font-bold" data-translate="th-2">Location</th>
+                            <th class="p-4 font-bold" data-translate="th-3">Variety</th>
+                            <th class="p-4 font-bold" data-translate="th-4">Available Tonnage</th>
+                            <th class="p-4 font-bold" data-translate="th-5">Status</th>
+                            <th class="p-4 font-bold text-right" data-translate="th-6">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-sm">
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-bold text-slate-900">Ntaba Farm (Ndi Paul)</td>
+                            <td class="p-4 text-slate-600">Ntaba</td>
+                            <td class="p-4 text-slate-600">TGX-1987 (Improved)</td>
+                            <td class="p-4 font-semibold text-emerald-700">15.0 Tons (5 Ha)</td>
+                            <td class="p-4"><span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full" data-translate="status-1">Harvest Ready</span></td>
+                            <td class="p-4 text-right"><button onclick="alert('Connecting to Ndi Paul / Ntaba Farm representative...')" class="bg-emerald-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-emerald-800" data-translate="connect-btn">Connect</button></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-bold text-slate-900">Bamenda Cooperative</td>
+                            <td class="p-4 text-slate-600">West</td>
+                            <td class="p-4 text-slate-600">Local Standard</td>
+                            <td class="p-4 font-semibold text-emerald-700">42.0 Tons</td>
+                            <td class="p-4"><span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full" data-translate="status-1">Harvest Ready</span></td>
+                            <td class="p-4 text-right"><button onclick="alert('Connecting to cooperative...')" class="bg-emerald-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-emerald-800" data-translate="connect-btn">Connect</button></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-bold text-slate-900">Obala Growers Group</td>
+                            <td class="p-4 text-slate-600">Centre</td>
+                            <td class="p-4 text-slate-600">TGX-1448</td>
+                            <td class="p-4 font-semibold text-emerald-700">67.5 Tons</td>
+                            <td class="p-4"><span class="bg-orange-100 text-orange-800 text-xs font-bold px-2.5 py-1 rounded-full" data-translate="status-2">Pre-Booking</span></td>
+                            <td class="p-4 text-right"><button onclick="alert('Connecting to grower group...')" class="bg-emerald-900 text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-emerald-800" data-translate="connect-btn">Connect</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-10 mt-20 text-center text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p data-translate="footer-text">Soybean Innovation Platform Demo | Stakeholder Integration Network</p>
+            <p class="text-slate-300 font-medium" data-translate="footer-eng">Engineered by Chi Barison Fru</p>
+            <div class="flex space-x-4">
+                <a href="https://frankfru.com" target="_blank" class="hover:text-emerald-400 transition flex items-center"><i class="fa-solid fa-globe mr-1.5"></i> frankfru.com</a>
+                <a href="https://www.linkedin.com/in/chi-barison-fru" target="_blank" class="hover:text-emerald-400 transition flex items-center"><i class="fa-brands fa-linkedin mr-1.5"></i> LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bilingual JavaScript Translator Script -->
+    <script>
+        const translations = {
+            en: {
+                "header-title": "Soybean Innovation Platform",
+                "farmer-btn": "Farmer View",
+                "buyer-btn": "Buyer View",
+                "metric-1-title": "Total Tonnage Listed",
+                "tons-label": "Tons",
+                "metric-1-sub": "Includes Ndi Paul's 5ha Ntaba Pilot",
+                "metric-2-title": "Active Buyers & Processors",
+                "verified-label": "Verified",
+                "metric-2-sub": "Ready for contract matching",
+                "metric-3-title": "Regional Coverage",
+                "regions-label": "Regions",
+                "metric-3-sub": "Southwest, Centre, West, Littoral",
+                "producer-badge": "Producer Portal",
+                "producer-heading": "List Your Soybean Harvest",
+                "form-label-1": "Producer / Farm Name",
+                "form-label-2": "Region / Location",
+                "form-label-3": "Available Tonnage (Tons)",
+                "form-btn": "Publish Listing",
+                "buyer-badge": "Buyer Portal",
+                "buyer-heading": "Marketplace & Demand Search",
+                "search-placeholder": "Search by farm, region, or variety...",
+                "opt-all": "All Regions",
+                "table-heading": "Live Value-Chain Directory & Matching Table",
+                "table-sub": "Real-time data feeds connecting verified producers to industrial processors and consumers.",
+                "th-1": "Producer / Farm",
+                "th-2": "Location",
+                "th-3": "Variety",
+                "th-4": "Available Tonnage",
+                "th-5": "Status",
+                "th-6": "Action",
+                "status-1": "Harvest Ready",
+                "status-2": "Pre-Booking",
+                "connect-btn": "Connect",
+                "footer-text": "Soybean Innovation Platform Demo | Stakeholder Integration Network",
+                "footer-eng": "Engineered by Chi Barison Fru"
+            },
+            fr: {
+                "header-title": "Plateforme d'Innovation Soja",
+                "farmer-btn": "Vue Producteur",
+                "buyer-btn": "Vue Acheteur",
+                "metric-1-title": "Tonnage Total Répertorié",
+                "tons-label": "Tonnes",
+                "metric-1-sub": "Inclut le projet pilote de 5ha de Ndi Paul à Ntaba",
+                "metric-2-title": "Acheteurs & Transformateurs Actifs",
+                "verified-label": "Vérifiés",
+                "metric-2-sub": "Prêts pour l'appariement de contrats",
+                "metric-3-title": "Couverture Régionale",
+                "regions-label": "Régions",
+                "metric-3-sub": "Sud-Ouest, Centre, Ouest, Littoral",
+                "producer-badge": "Portail Producteur",
+                "producer-heading": "Enregistrez votre Récolte de Soja",
+                "form-label-1": "Nom du Producteur / Ferme",
+                "form-label-2": "Région / Emplacement",
+                "form-label-3": "Tonnage Disponible (Tonnes)",
+                "form-btn": "Publier l'Annonce",
+                "buyer-badge": "Portail Acheteur",
+                "buyer-heading": "Recherche de Marché et de Demande",
+                "search-placeholder": "Rechercher par ferme, région ou variété...",
+                "opt-all": "Toutes les Régions",
+                "table-heading": "Répertoire de la Chaîne de Valeur & Table de Correspondance",
+                "table-sub": "Flux de données en temps réel connectant les producteurs vérifiés aux transformateurs industriels.",
+                "th-1": "Producteur / Ferme",
+                "th-2": "Emplacement",
+                "th-3": "Variété",
+                "th-4": "Tonnage Disponible",
+                "th-5": "Statut",
+                "th-6": "Action",
+                "status-1": "Prêt pour Récolte",
+                "status-2": "Pré-Réservation",
+                "connect-btn": "Connecter",
+                "footer-text": "Démo de la Plateforme d'Innovation Soja | Réseau d'Intégration des Parties Prenantes",
+                "footer-eng": "Conçu par Chi Barison Fru"
+            }
+        };
+
+        let currentLang = 'en';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'fr' : 'en';
+            document.getElementById('lang-text').innerText = currentLang === 'en' ? 'FR' : 'EN';
+            document.getElementById('html-root').setAttribute('lang', currentLang);
+
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+
+            const placeholders = document.querySelectorAll('[data-translate-placeholder]');
+            placeholders.forEach(el => {
+                const key = el.getAttribute('data-translate-placeholder');
+                if (translations[currentLang][key]) {
+                    el.placeholder = translations[currentLang][key];
+                }
+            });
+        }
+
+        function switchRole(role) {
+            const farmerPanel = document.getElementById('farmer-panel');
+            const buyerPanel = document.getElementById('buyer-panel');
+            const farmerTab = document.getElementById('farmer-tab');
+            const buyerTab = document.getElementById('buyer-tab');
+
+            if (role === 'farmer') {
+                farmerPanel.classList.remove('hidden');
+                buyerPanel.classList.add('hidden');
+                farmerTab.className = "bg-orange-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition";
+                buyerTab.className = "bg-emerald-800 text-emerald-200 px-3 py-1.5 rounded-lg text-xs font-bold transition";
+            } else {
+                farmerPanel.classList.add('hidden');
+                buyerPanel.classList.remove('hidden');
+                buyerTab.className = "bg-orange-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition";
+                farmerTab.className = "bg-emerald-800 text-emerald-200 px-3 py-1.5 rounded-lg text-xs font-bold transition";
+            }
+        }
+
+        function filterTable() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let region = document.getElementById('regionFilter').value.toLowerCase();
+            let table = document.getElementById('matchingTable');
+            let tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                let tdFarm = tr[i].getElementsByTagName('td')[0];
+                let tdLocation = tr[i].getElementsByTagName('td')[1];
+                let tdVariety = tr[i].getElementsByTagName('td')[2];
+                if (tdFarm || tdLocation || tdVariety) {
+                    let farmText = tdFarm ? tdFarm.textContent.toLowerCase() : '';
+                    let locText = tdLocation ? tdLocation.textContent.toLowerCase() : '';
+                    let varText = tdVariety ? tdVariety.textContent.toLowerCase() : '';
+                    
+                    let matchesInput = farmText.includes(input) || locText.includes(input) || varText.includes(input);
+                    let matchesRegion = region === '' || locText.includes(region);
+
+                    if (matchesInput && matchesRegion) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
